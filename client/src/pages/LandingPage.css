@@ -1,0 +1,142 @@
+.main {
+  background-image: url(../assets/img/imgmain.png);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3rem;
+  height: 20rem;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex-direction: column;
+  text-align: center;
+}
+
+.conten-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+}
+
+.mainlogos {
+  display: flex;
+  max-width: 900px;
+  gap: 5dvw;
+  margin: 0;
+  margin-top: 2rem;
+}
+
+.mainlogos img {
+  height: 6rem;
+  width: auto;
+}
+
+.main p {
+  margin-top: 6rem;
+  font-size: 2rem;
+  color: white;
+  font-weight: 800;
+}
+
+.main a {
+  background-color: var(--bg);
+  padding: 1rem 2rem;
+  margin-top: 2rem;
+  text-decoration: none;
+  color: white;
+  font-weight: 700;
+}
+
+.main a:hover {
+  background-color: white;
+  color: var(--bg);
+  transition: 70ms;
+}
+
+.know-prod {
+  display: flex;
+  background-color: black;
+  width: 100%;
+  height: 3.5rem;
+  margin-top: 2rem;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.know-prod p {
+  color: white;
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+
+.ul-know-prod {
+  max-width: 1080px;
+  list-style-type: none;
+  display: flex;
+  padding: 0;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  text-align: center;
+  width: 80%;
+}
+
+.ul-know-prod li {
+  display: flex;
+  width: calc(100% / 2 - 2rem);
+  flex-direction: column;
+}
+
+.ul-know-prod a {
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin: 1rem 0;
+  background-color: #282829;
+  text-decoration: none;
+  color: white;
+}
+.ul-know-prod img {
+  width: 100%;
+}
+
+@media screen and (max-width: 800px) {
+  .main a {
+    margin-top: 1rem;
+  }
+
+  .mainlogos {
+    display: none;
+  }
+
+  .ul-know-prod {
+    gap: 1rem;
+    width: 80%;
+  }
+
+  .ul-know-prod a {
+    margin: 0;
+    font-size: 12px;
+  }
+
+  .know-prod p {
+    font-size: 14px;
+  }
+  .know-prod {
+    height: 2.5rem;
+    margin-top: 0.5rem;
+  }
+}
+@media screen and (max-width: 500px) {
+  .ul-know-prod {
+    width: 90%;
+    grid-area: 0.5;
+  }
+
+  .ul-know-prod a {
+    font-size: 10px;
+  }
+}
