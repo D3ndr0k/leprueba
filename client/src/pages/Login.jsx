@@ -1,12 +1,20 @@
 import { useForm } from "react-hook-form";
 import MainHeadre from "../components/MainHeader";
 import "./Login.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { api } from "../api/api";
 
 function Login() {
+  const navigate = useNavigate();
+  const [errores, setErrores] = useState();
   const { register, handleSubmit } = useForm();
-
-  const submit = (data) => {
-    console.log(data);
+  const submit = async (values) => {
+    const resp = await api.post("/login", values);
+    setErrores(resp.data.error);
+    if (resp.data.ok === "ok") {
+      navigate("/home");
+    }
   };
   return (
     <>
@@ -28,7 +36,7 @@ function Login() {
             autoComplete="on"
             {...register("password", { required: true })}
           />
-
+          <div className="error">{errores}</div>
           <button type="submit" className="btn" id="login">
             Log In
           </button>

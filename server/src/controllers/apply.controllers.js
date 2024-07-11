@@ -21,7 +21,6 @@ export const apply = async (req, res) => {
       if (result) {
         res.json({ ok: "ok" });
       } else {
-        res.status(500);
         res.json({ error: "Sorry :( error " });
       }
     }
@@ -32,4 +31,23 @@ export const apply = async (req, res) => {
 
 //login
 
-export const login = async (req, res) => {};
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const compare = await sql("SELECT * FROM cliente WHERE email= $1", [email]);
+    // console.log(compare);
+    if (compare.length === 0) {
+      res.json({ error: "Incorrect email or passwordd" });
+    } else {
+      const pass = await bcrypt.compare(password, compare[0].password);
+      if (pass.length === 0) {
+        res.json({ error: "Incorrect email or password" });
+      } else {
+        res.status(200).json({ ok: "ok" });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
