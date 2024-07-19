@@ -4,6 +4,7 @@
   --bg: #44006e;
   --blanco: #ffffff;
   --negro: #000000;
+  --gris: #282829;
 }
 
 body {
@@ -11,4 +12,24 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+.center {
+  display: flex;
+  width: 100dvw;
+  height: 100dvh;
+  justify-content: center;
+  align-items: center;
+}
+.loader {
+  width: 30px;
+  aspect-ratio: 4;
+  background: radial-gradient(circle closest-side, #000 90%, #0000) 0 /
+    calc(100% / 3) 100% space;
+  clip-path: inset(0 100% 0 0);
+  animation: l1 1s steps(4) infinite;
+}
+@keyframes l1 {
+  to {
+    clip-path: inset(0 -34% 0 0);
+  }
 }

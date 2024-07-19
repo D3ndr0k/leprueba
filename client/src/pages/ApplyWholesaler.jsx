@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import "./ApplyWholesaler.css";
 import MainHeadre from "../components/MainHeader";
 import { useNavigate } from "react-router-dom";
@@ -17,24 +17,42 @@ function ApplyWholesaler() {
 
   const submit = async (values) => {
     const resp = await api.post("/apply", values);
-    if (resp.data.name._errors[0]) {
+
+    const namecheck = resp.data.name || "no error";
+    if (namecheck === "no error") {
+      setNameError();
+    } else {
       setNameError(resp.data.name._errors[0]);
     }
-    if (resp.data.email._errors[0]) {
+
+    const emailcheck = resp.data.email || "no error";
+    if (emailcheck === "no error") {
+      setEmailError();
+    } else {
       setEmailError(resp.data.email._errors[0]);
     }
 
-    if (resp.data.password._errors[0]) {
+    const passcheck = resp.data.password || "no error";
+    if (passcheck === "no error") {
+      setPassError();
+    } else {
       setPassError(resp.data.password._errors[0]);
     }
 
-    if (resp.data.address._errors[0]) {
+    const addresscheck = resp.data.address || "no error";
+    if (addresscheck === "no error") {
+      setAddressError();
+    } else {
       setAddressError(resp.data.address._errors[0]);
     }
 
-    if (resp.data.country._errors[0]) {
+    const countrycheck = resp.data.country || "no error";
+    if (countrycheck === "no error") {
+      setCountryError();
+    } else {
       setCountryError(resp.data.country._errors[0]);
     }
+
     setErrores(resp.data.error);
     if (resp.data.ok === "ok") {
       navigate("/login");
@@ -51,7 +69,7 @@ function ApplyWholesaler() {
               type="email"
               id="email"
               placeholder="Email"
-              {...register("email")}
+              {...register("email", { message: "hola" })}
             />
             <div className="errors">{emailError}</div>
             <input

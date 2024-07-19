@@ -12,7 +12,7 @@ export default function MainHeader() {
             <img src="{img.logo}" alt="Logo Le Stage" />
           </picture>
         </Link>
-        <div className="hola">
+        <div>
           <input className="menu-open" id="menu-open" type="checkbox" />
           <label htmlFor="menu-open">
             <FiMenu color="#fff" size={24} />
@@ -21,7 +21,7 @@ export default function MainHeader() {
           <nav id="menu">
             <Link to="/apply">Application</Link>
             <Link to="/login">Log in</Link>
-            <Link to="">About us</Link>
+            <Link to="/aboutus">About us</Link>
             <Link to="contact.html">Contact</Link>
           </nav>
         </div>

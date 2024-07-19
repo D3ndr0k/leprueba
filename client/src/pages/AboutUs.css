@@ -1,0 +1,42 @@
+.aboutusimg {
+  height: 25rem;
+  width: 100%;
+  background-image: url("../assets/img/cantera.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: end;
+}
+
+.aboutusimg h1 {
+  position: relative;
+  font-weight: 800;
+  background-color: var(--bg);
+  width: 20rem;
+  bottom: -40px;
+  margin-left: 10%;
+  text-align: center;
+  height: 2.5rem;
+  color: var(--blanco);
+  font-size: 2rem;
+}
+.aboutus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(100%);
+}
+
+.aboutus section:nth-child(1) {
+  width: 50%;
+  margin-top: 1rem;
+  font-size: 13px;
+}
+
+.aboutus section:nth-child(2) {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

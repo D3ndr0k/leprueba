@@ -44,6 +44,32 @@
   display: none;
 }
 
+.search #search {
+  background-color: transparent;
+  font-family: "Montserrat", sans-serif;
+  border: 0;
+  font-size: 1rem;
+  border-bottom: 1px solid white;
+  width: 4.5rem;
+}
+
+#search::placeholder {
+  color: #ffffff;
+}
+
+.linknav {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-no {
+  background-color: transparent;
+  color: #ffffff;
+  border: 0;
+  padding: 0;
+}
+
 @media (max-width: 720px) {
   #main-header label {
     display: flex;

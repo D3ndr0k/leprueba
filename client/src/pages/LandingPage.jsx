@@ -2,8 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./LandingPage.css";
 import img from "../assets/img/img";
-// import Footer from "../components/Footer";
 import MainHeader from "../components/MainHeader";
+import Footer from "../components/Footer";
+
 function LandingPage() {
   return (
     <>
@@ -20,11 +21,12 @@ function LandingPage() {
           <img src={img.mainlogo4} alt="Real time deals" />
         </figure>
       </section>
-      <div className="know-prod">
+
+      <div className="products">
         <p>Know our products</p>
       </div>
       <section className="conten-center">
-        <ul className="ul-know-prod">
+        <ul className="ul-products">
           <li>
             <Link to="">Cut Base</Link>
             <picture>
@@ -34,35 +36,36 @@ function LandingPage() {
           <li>
             <Link to="">Pieces</Link>
             <picture>
-              <img src={img.cutbase} alt="Cut Base" />
+              <img src={img.piece} alt="Piece" />
             </picture>
           </li>
           <li>
             <Link to="">Shapes</Link>
             <picture>
-              <img src={img.cutbase} alt="Cut Base" />
+              <img src={img.shape} alt="Shape" />
             </picture>
           </li>
           <li>
             <Link to="">Natural</Link>
             <picture>
-              <img src={img.cutbase} alt="Cut Base" />
+              <img src={img.natural} alt="Natural" />
             </picture>
           </li>
           <li>
             <Link to="">Specimens</Link>
             <picture>
-              <img src={img.cutbase} alt="Cut Base" />
+              <img src={img.specimen} alt="Specimen" />
             </picture>
           </li>
           <li>
             <Link to="">Big & Giant Pieces</Link>
             <picture>
-              <img src={img.cutbase} alt="Cut Base" />
+              <img src={img.big} alt="Big and giant pieces" />
             </picture>
           </li>
         </ul>
       </section>
+      <Footer />
     </>
   );
 }
