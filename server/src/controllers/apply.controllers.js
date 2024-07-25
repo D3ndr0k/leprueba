@@ -148,3 +148,25 @@ export const logout = (req, res) => {
     res.status(401).json({ error: "No token provided" });
   }
 };
+
+// controllers/authController.js
+
+export const getUserData = (req, res) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.json({ error: "No token provided" });
+  }
+
+  jwt.verify(token, process.env.KEY_RETOKEN, (err, user) => {
+    if (err) {
+      return res.json({ error: "Token verification failed" });
+    }
+
+    res.status(200).json({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    });
+  });
+};

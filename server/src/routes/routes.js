@@ -4,6 +4,7 @@ import {
   login,
   refresh,
   logout,
+  getUserData,
 } from "../controllers/apply.controllers.js";
 import { validar } from "../middlewares/validar.middleware.js";
 import { registroSchema } from "../schemas/schema.js";
@@ -18,12 +19,6 @@ router.post("/login", login);
 
 router.post("/logout", authenticateToken, logout);
 
-router.get("/profile", authenticateToken, (req, res) => {
-  if (!req.user) {
-    return res.json({ error: "Unauthorized" });
-  }
-
-  res.status(200).json(req.user);
-});
+router.get("/profile", getUserData);
 
 export default router;
