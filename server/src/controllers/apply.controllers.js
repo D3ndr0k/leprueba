@@ -49,61 +49,234 @@ export const apply = async (req, res) => {
     console.log(error);
   }
 };
+// //login
+// export const login = async (req, res) => {
+//   const { email, password } = req.body;
 
-//login
+//   try {
+//     const [user] = await sql("SELECT * FROM cliente WHERE email = $1", [email]);
+//     // console.log(user.password);
+//     if (!user) {
+//       return res.json({ error: "Incorrect email or password" });
+//     }
 
+//     const match = await bcrypt.compare(password, user.password);
+//     if (!match) {
+//       return res.json({ error: "Incorrect email or password" });
+//     } else {
+//       const token = jwt.sign(
+//         { id: user.id_cliente, name: user.nombre, email: user.email },
+//         process.env.KEY_TOKEN,
+//         {}
+//       );
+
+//       res.cookie("token", token, {
+//         httpOnly: true,
+//         secure: false,
+//         sameSite: "strict",
+//       });
+
+//       res.status(200).json({
+//         token,
+//         user: {
+//           id: user.id_cliente,
+//           name: user.nombre,
+//           email: user.email,
+//         },
+//       });
+//     }
+//   } catch (error) {
+//     console.error("Login error:", error);
+//     res.status(500).json({ error: "Server error" });
+//   }
+// };
+
+// let refreshTokens = [];
+// export const refresh = async (req, res) => {
+//   const refreshToken = req.cookies.token;
+
+//   if (!refreshToken) {
+//     return res.json("You are not authenticated");
+//   }
+//   if (!refreshTokens.includes(refreshToken)) {
+//     return res.json("Refresh token is not valid");
+//   }
+//   jwt.verify(refreshToken, process.env.KEY_RETOKEN),
+//     (err, user) => {
+//       err && console.log(err);
+//       refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+
+//       const newAccessToken = generateAccessToken(user);
+//       const newRefreshToken = generateRefreshToken(user);
+
+//       refreshTokens.push(newRefreshToken);
+
+//       res.status(200).json({
+//         accessToken: newAccessToken,
+//         refreshToken: newRefreshToken,
+//       });
+//     };
+// };
+
+// const generateAccessToken = (user) => {
+//   return jwt.sign(
+//     {
+//       id: user.id_cliente,
+//       name: user.nombre,
+//       email: user.email,
+//     },
+//     process.env.KEY_TOKEN,
+//     { expiresIn: "1d" }
+//   );
+// };
+
+// const generateRefreshToken = (user) => {
+//   return jwt.sign(
+//     {
+//       id: user.id_cliente,
+//       name: user.nombre,
+//       email: user.email,
+//     },
+//     process.env.KEY_RETOKEN
+//   );
+// };
+
+// export const login = async (req, res) => {
+//   const { email, password } = req.body;
+
+//   const [user] = await sql("SELECT * FROM cliente WHERE email = $1", [email]);
+
+//   if (user) {
+//     const match = await bcrypt.compare(password, user.password);
+
+//     if (match) {
+//       const accessToken = generateAccessToken(user);
+//       const refreshToken = generateRefreshToken(user);
+//       refreshTokens.push(refreshToken);
+//       res.json({
+//         id: user.id_cliente,
+//         name: user.nombre,
+//         email: user.email,
+//         accessToken,
+//         refreshToken,
+//       });
+//     } else {
+//       res.json({ error: "Incorrect email or password" });
+//     }
+//   } else {
+//     res.json({ error: "Incorrect email or password" });
+//   }
+// };
+
+// const verify = (req, res, next) => {
+//   const authCookie = req.cookies.token;
+//   if (authCookie) {
+//     jwt.verify(authCookie, process.env.KEY_TOKEN, (err, user) => {
+//       if (err) {
+//         return res.json("Token is not valid");
+//       }
+
+//       req.user = user;
+//       next;
+//     });
+//   }
+// };
+
+let refreshTokens = [];
+
+//  refresh  tokens
+export const refresh = async (req, res) => {
+  const refreshToken = req.cookies.token;
+
+  if (!refreshToken) {
+    return res.status(401).json({ error: "You are not authenticated" });
+  }
+
+  if (!refreshTokens.includes(refreshToken)) {
+    return res.status(403).json({ error: "Refresh token is not valid" });
+  }
+
+  jwt.verify(refreshToken, process.env.KEY_RETOKEN, (err, user) => {
+    if (err) {
+      console.error(err);
+      return res.status(403).json({ error: "Token verification failed" });
+    }
+
+    refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+
+    const newAccessToken = generateAccessToken(user);
+    const newRefreshToken = generateRefreshToken(user);
+
+    refreshTokens.push(newRefreshToken);
+
+    res.status(200).json({
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+    });
+  });
+};
+
+const generateAccessToken = (user) => {
+  return jwt.sign(
+    {
+      id: user.id_cliente,
+      name: user.nombre,
+      email: user.email,
+    },
+    process.env.KEY_TOKEN,
+    { expiresIn: "1d" }
+  );
+};
+
+const generateRefreshToken = (user) => {
+  return jwt.sign(
+    {
+      id: user.id_cliente,
+      name: user.nombre,
+      email: user.email,
+    },
+    process.env.KEY_RETOKEN
+  );
+};
+
+// login
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
-  try {
-    const [compare] = await sql("SELECT * FROM cliente WHERE email= $1", [
-      email,
-    ]);
-    // console.log(compare);
-    if (compare.length === 0) {
-      res.json({ error: "Incorrect email or passwordd" });
-    } else {
-      const pass = await bcrypt.compare(password, compare.password);
-      if (pass.length === 0) {
-        res.json({ error: "Incorrect email or password" });
-      } else {
-        const token = jwt.sign(
-          {
-            id: compare.id_cliente,
-            name: compare.nombre,
-            email: compare.email,
-          },
-          process.env.KEY_TOKEN,
-          {}
-        );
-        res.cookie("token", token);
+  const [user] = await sql("SELECT * FROM cliente WHERE email = $1", [email]);
 
-        res.status(200).json({ token });
-      }
+  if (user) {
+    const match = await bcrypt.compare(password, user.password);
+
+    if (match) {
+      const accessToken = generateAccessToken(user);
+      const refreshToken = generateRefreshToken(user);
+      refreshTokens.push(refreshToken);
+      res.status(200).json({
+        id: user.id_cliente,
+        name: user.nombre,
+        email: user.email,
+        accessToken,
+        refreshToken,
+      });
+    } else {
+      res.status(401).json({ error: "Incorrect email or password" });
     }
-  } catch (error) {
-    console.log(error);
+  } else {
+    res.status(401).json({ error: "Incorrect email or password" });
   }
 };
 
-export const getUserToken = async (req, res) => {
-  const token = req.cookies.token;
-  if (token) {
-    const validar = jwt.verify(token, process.env.KEY_TOKEN);
-    if (!validar) {
-      res.status(401).send({ message: "Token inválido" });
-    } else {
-      const data = jwt.decode(token, process.env.KEY_TOKEN);
-      res.send(data);
-    }
-  }
-};
+export const logout = (req, res) => {
+  const refreshToken = req.cookies.token;
 
-export const logout = async (req, res) => {
-  res.cookie("token", "", {
-    httpOnly: true,
-    secure: true,
-    expires: new Date(0),
-  });
-  res.json({ Status: "ok" });
+  if (refreshToken) {
+    refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+
+    res.cookie("token", "", { expires: new Date(0) });
+
+    res.status(200).json({ message: "Logged out successfully" });
+  } else {
+    res.status(401).json({ error: "No token provided" });
+  }
 };

@@ -4,11 +4,13 @@ import router from "./routes/routes.js";
 import "./db.js";
 import "./mail.js";
 import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
 
 const app = express();
 
 const port = process.env.PORT || 4000;
 
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
 app.use(

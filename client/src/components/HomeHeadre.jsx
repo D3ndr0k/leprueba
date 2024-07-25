@@ -4,7 +4,7 @@ import { BiUser, BiShoppingBag, BiSearch } from "react-icons/bi";
 import "./MainHeader.css";
 import { useAuth } from "../context/AuthContext";
 
-function HomeHeadre() {
+function HomeHeader() {
   const { user, logout } = useAuth();
 
   return (
@@ -12,7 +12,7 @@ function HomeHeadre() {
       <header id="main-header">
         <Link to="/">
           <picture>
-            <img src="{img.logo}" alt="Logo Le Stage" />
+            <img src="" alt="Logo Le Stage" />
           </picture>
         </Link>
         <div className="hola">
@@ -24,14 +24,14 @@ function HomeHeadre() {
           <nav id="menu">
             <Link className="linknav" to="#">
               <BiUser size={20} />
-              Hi {user}
+              Hi {user ? user.name : "Guest"}
             </Link>
             <Link className="linknav" to="#">
               <BiShoppingBag size={20} />
               Get number
             </Link>
             <form action="" className="search linknav" method="get">
-              <button className="btn-no " type="submit">
+              <button className="btn-no" type="submit">
                 <BiSearch size={20} />
               </button>
               <input
@@ -41,7 +41,7 @@ function HomeHeadre() {
                 placeholder="Search"
               />
             </form>
-            <Link to="/" onClick={() => logout()}>
+            <Link to="/" onClick={logout}>
               Logout
             </Link>
           </nav>
@@ -51,4 +51,4 @@ function HomeHeadre() {
   );
 }
 
-export default HomeHeadre;
+export default HomeHeader;

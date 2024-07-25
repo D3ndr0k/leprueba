@@ -1,68 +1,92 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
+import Cookies from "universal-cookie";
 import { api } from "../api/api";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(true);
+  const cookies = new Cookies();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = Cookies.get("token");
-
-      if (token) {
-        try {
-          const data = await api.get("/user");
-          setUser(data.data.name);
+      setLoading(true);
+      try {
+        const token = cookies.get("token");
+        if (token) {
+          const { data } = await api.get("/profile", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setUser(data);
           setIsAuth(true);
-        } catch (error) {
-          console.error("Error fetching user", error);
-          setUser(null);
+        } else {
           setIsAuth(false);
-        } finally {
-          setLoading(false);
         }
-      } else {
-        setUser(null);
+      } catch (error) {
+        console.error("Error fetching user:", error);
         setIsAuth(false);
+      } finally {
         setLoading(false);
       }
     };
 
     fetchUser();
-  }, []);
+  }, []); // Eliminar cookies de las dependencias
 
-  const login = async (values) => {
+  const login = async (email, password) => {
     setLoading(true);
     try {
-      const response = await api.post("/login", values);
-      setUser(response.data.user);
+      const { data } = await api.post("/login", { email, password });
+      cookies.set("token", data.refreshToken, { path: "/" });
+      setUser({
+        id: data.id,
+        name: data.name,
+        email: data.email,
+      });
       setIsAuth(true);
-      Cookies.set("token", response.data.token, {});
       navigate("/home");
     } catch (error) {
-      console.error("Error al iniciar sesión:", error);
+      console.error("Login error:", error);
+      throw error;
     } finally {
       setLoading(false);
     }
   };
 
-  const logout = () => {
-    Cookies.remove("token");
-    setUser(null);
-    setIsAuth(false);
+  const logout = async () => {
+    setLoading(true);
+    try {
+      await api.post("/logout");
+      cookies.remove("token");
+      setUser(null);
+      setIsAuth(false);
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuth, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, isAuth, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export default AuthContext;

@@ -5,15 +5,16 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 function Login() {
-  const [errores, setErrores] = useState();
   const { register, handleSubmit } = useForm();
   const { login } = useAuth();
+  const [errors, setErrors] = useState(null);
 
   const submit = async (values) => {
     try {
-      await login(values);
+      await login(values.email, values.password);
     } catch (error) {
-      setErrores("Error al iniciar sesión");
+      console.error("Login failed:", error);
+      setErrors("Login failed. Please check your credentials and try again.");
     }
   };
 
@@ -25,19 +26,17 @@ function Login() {
           <input
             type="email"
             name="email"
-            id="email"
             placeholder="Email"
             {...register("email", { required: true })}
           />
           <input
             type="password"
             name="password"
-            id="password"
             placeholder="Password"
             autoComplete="on"
             {...register("password", { required: true })}
           />
-          {errores && <div className="error">{errores}</div>}
+          {errors && <div className="error">{errors}</div>}
           <button type="submit" className="btn" id="login">
             Log In
           </button>
