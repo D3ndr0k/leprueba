@@ -1,0 +1,32 @@
+.thanks {
+  width: 330px;
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  padding-bottom: 20px;
+  border: 1px solid black;
+  color: #686868;
+}
+
+.thanks p {
+  margin: 20px 40px;
+}
+
+.thanks-purple {
+  width: 100%;
+  height: 40px;
+  background-color: #44006e;
+  margin-bottom: 40px;
+}
+
+.thanks a {
+  text-decoration: none;
+  font-weight: 600;
+  color: #686868;
+}
+
+.thanks a:hover {
+  color: #282829;
+}

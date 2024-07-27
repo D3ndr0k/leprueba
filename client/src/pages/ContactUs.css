@@ -1,0 +1,60 @@
+.conten {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 18dvh;
+}
+
+.contact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  flex-direction: column;
+  text-align: center;
+}
+
+.contact span {
+  color: red;
+}
+
+.contact a {
+  text-decoration: none;
+  margin: 0.5rem;
+  color: black;
+  font-weight: 700;
+}
+
+.hr {
+  margin-bottom: 0.5rem;
+  background-color: black;
+  height: 2px;
+  width: 60px;
+}
+
+.contact p {
+  font-weight: 600;
+}
+
+.contact input {
+  font-family: "Montserrat", sans-serif;
+  padding: 1rem;
+  color: #686868;
+  border: 1px solid rgb(0, 0, 0);
+  font-weight: 500;
+  width: calc(100% - 3rem);
+  max-width: 300px;
+  margin: 0.5rem 0;
+}
+
+.contact textarea {
+  color: #686868;
+  border: 1px solid black;
+  height: 150px;
+  width: calc(100% - 3rem);
+  max-width: 300px;
+  font-weight: 500;
+  font-family: "Montserrat", sans-serif;
+  padding: 1rem;
+  margin: 0.5rem 0;
+}

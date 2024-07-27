@@ -92,6 +92,17 @@
   width: 50%;
 }
 
+.hr {
+  margin-bottom: 0.5rem;
+  background-color: black;
+  height: 2px;
+  width: 60px;
+}
+
+.apply p {
+  font-weight: 600;
+}
+
 @media screen and (max-width: 720px) {
   .apply {
     flex-direction: column;

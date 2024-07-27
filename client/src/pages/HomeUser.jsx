@@ -15,7 +15,7 @@ function HomeUser() {
 
       <div className="fakeheader"></div>
       <div className="main-home">
-        <p>TEXTO</p>
+        <p>Ready for the best amethysts?</p>
       </div>
 
       <div className="products">

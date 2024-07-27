@@ -5,6 +5,8 @@ import {
   refresh,
   logout,
   getUserData,
+  pais,
+  contactus,
 } from "../controllers/apply.controllers.js";
 import { validar } from "../middlewares/validar.middleware.js";
 import { registroSchema } from "../schemas/schema.js";
@@ -19,6 +21,10 @@ router.post("/login", login);
 
 router.post("/logout", authenticateToken, logout);
 
+router.post("/contactus", contactus);
+
 router.get("/profile", getUserData);
+
+router.get("/pais", pais);
 
 export default router;

@@ -1,67 +1,85 @@
-import { useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import "./ApplyWholesaler.css";
-import MainHeadre from "../components/MainHeader";
+import MainHeader from "../components/MainHeader";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api/api";
 
 function ApplyWholesaler() {
   const navigate = useNavigate();
-  const [errores, setErrores] = useState();
   const { register, handleSubmit } = useForm();
   const [nameError, setNameError] = useState();
   const [emailError, setEmailError] = useState();
   const [passError, setPassError] = useState();
-  const [addresError, setAddressError] = useState();
+  const [addressError, setAddressError] = useState();
   const [countryError, setCountryError] = useState();
+  const [countries, setCountries] = useState([]);
+  const [errores, setErrores] = useState();
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await api.get("/pais");
+        setCountries(response.data);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
 
   const submit = async (values) => {
-    const resp = await api.post("/apply", values);
+    try {
+      const resp = await api.post("/apply", values);
 
-    const namecheck = resp.data.name || "no error";
-    if (namecheck === "no error") {
-      setNameError();
-    } else {
-      setNameError(resp.data.name._errors[0]);
-    }
+      const namecheck = resp.data.name || "no error";
+      if (namecheck === "no error") {
+        setNameError();
+      } else {
+        setNameError(resp.data.name._errors[0]);
+      }
 
-    const emailcheck = resp.data.email || "no error";
-    if (emailcheck === "no error") {
-      setEmailError();
-    } else {
-      setEmailError(resp.data.email._errors[0]);
-    }
+      const emailcheck = resp.data.email || "no error";
+      if (emailcheck === "no error") {
+        setEmailError();
+      } else {
+        setEmailError(resp.data.email._errors[0]);
+      }
 
-    const passcheck = resp.data.password || "no error";
-    if (passcheck === "no error") {
-      setPassError();
-    } else {
-      setPassError(resp.data.password._errors[0]);
-    }
+      const passcheck = resp.data.password || "no error";
+      if (passcheck === "no error") {
+        setPassError();
+      } else {
+        setPassError(resp.data.password._errors[0]);
+      }
 
-    const addresscheck = resp.data.address || "no error";
-    if (addresscheck === "no error") {
-      setAddressError();
-    } else {
-      setAddressError(resp.data.address._errors[0]);
-    }
+      const addresscheck = resp.data.address || "no error";
+      if (addresscheck === "no error") {
+        setAddressError();
+      } else {
+        setAddressError(resp.data.address._errors[0]);
+      }
 
-    const countrycheck = resp.data.country || "no error";
-    if (countrycheck === "no error") {
-      setCountryError();
-    } else {
-      setCountryError(resp.data.country._errors[0]);
-    }
+      const countrycheck = resp.data.country || "no error";
+      if (countrycheck === "no error") {
+        setCountryError();
+      } else {
+        setCountryError(resp.data.country._errors[0]);
+      }
 
-    setErrores(resp.data.error);
-    if (resp.data.ok === "ok") {
-      navigate("/login");
+      setErrores(resp.data.error);
+      if (resp.data.ok === "ok") {
+        navigate("/thanks");
+      }
+    } catch (error) {
+      console.error("Error submitting the form:", error);
     }
   };
+
   return (
     <>
-      <MainHeadre />
-
+      <MainHeader />
       <div className="conten">
         <form className="apply" onSubmit={handleSubmit(submit)}>
           <div className="input1">
@@ -69,7 +87,9 @@ function ApplyWholesaler() {
               type="email"
               id="email"
               placeholder="Email"
-              {...register("email", { message: "hola" })}
+              {...register("email", {
+                required: "El correo electrónico es obligatorio",
+              })}
             />
             <div className="errors">{emailError}</div>
             <input
@@ -77,14 +97,18 @@ function ApplyWholesaler() {
               id="password"
               placeholder="Password"
               autoComplete="on"
-              {...register("password")}
+              {...register("password", {
+                required: "La contraseña es obligatoria",
+              })}
             />
             <div className="errors">{passError}</div>
             <input
               type="text"
               id="name"
               placeholder="Company name"
-              {...register("name")}
+              {...register("name", {
+                required: "El nombre de la empresa es obligatorio",
+              })}
             />
             <div className="errors">{nameError}</div>
           </div>
@@ -100,15 +124,25 @@ function ApplyWholesaler() {
               type="text"
               id="address"
               placeholder="Company address"
-              {...register("address")}
+              {...register("address", {
+                required: "La dirección es obligatoria",
+              })}
             />
-            <div className="errors">{addresError}</div>
+            <div className="errors">{addressError}</div>
 
-            <select className="country" id="country" {...register("country")}>
+            <select
+              className="country"
+              id="country"
+              {...register("country", { required: "El país es obligatorio" })}
+            >
               <option value="" hidden>
                 Country
               </option>
-              <option value="1">1</option>
+              {countries.map((pais) => (
+                <option key={pais.id_pais} value={pais.id_pais}>
+                  {pais.pais}
+                </option>
+              ))}
             </select>
             <div className="errors">{countryError}</div>
           </div>
@@ -116,8 +150,9 @@ function ApplyWholesaler() {
             name="message"
             id="message"
             placeholder="Tell us about your Company to evaluate your application...."
+            {...register("message")}
           ></textarea>
-          <div className="error">{errores}</div>
+          <div className="errors">{errores}</div>
           <button type="submit" className="btn" id="btn">
             Apply
           </button>

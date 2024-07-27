@@ -5,6 +5,54 @@ import { mailer } from "../mail.js";
 
 //apply mayorista
 
+export const pais = async (req, res) => {
+  try {
+    const pais = await sql("SELECT * FROM pais");
+    res.json(pais);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching countries" });
+  }
+};
+
+export const contactus = async (req, res) => {
+  const { name, email, message } = req.body;
+
+  if (!name || !email || !message) {
+    return res.json({ error: "All fields are required" });
+  }
+
+  try {
+    const info = await mailer.sendMail({
+      from: '"Le Stage" <lestagewholesaler@gmail.com>',
+      to: "lestagewholesaler@gmail.com",
+      subject: "Contacto",
+      html: `<!doctype html>
+                <html ⚡4email>
+                  <head>
+                    <meta charset="utf-8">
+                    <style amp4email-boilerplate>body{visibility:hidden}</style>
+                    <script async src="https://cdn.ampproject.org/v0.js"></script>
+                    <script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script>
+                  </head>
+                  <body>
+                    <p>Email: ${email}</p>
+                    <p>Nombre: ${name}</p>
+                    <p>Mensaje: ${message}</p>
+                  </body>
+                </html>`,
+    });
+
+    if (info.accepted.length > 0) {
+      res.json({ ok: "Message sent successfully" });
+    } else {
+      res.json({ error: "Error sending message" });
+    }
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res.status(500).json({ error: "Error sending message" });
+  }
+};
+
 export const apply = async (req, res) => {
   const { address, country, email, eori, name, password, message } = req.body;
   let pass = await bcrypt.hash(password, 10);
@@ -20,8 +68,12 @@ export const apply = async (req, res) => {
         "INSERT INTO cliente(nombre, email, password, eori, id_pais, address) VALUES ($1, $2, $3, $4, $5, $6) returning * ",
         [name, email, pass, eori, country, address]
       );
+
+      const [pais] = await sql("select * from pais where id_pais = $1", [
+        country,
+      ]);
+      // console.log(pais.pais);
       if (result) {
-        // JSON.stringify();
         const info = await mailer.sendMail({
           from: '"Le Stage" <lestagewholesaler@gmail.com>',
           to: "lestagewholesaler@gmail.com",
@@ -36,11 +88,13 @@ export const apply = async (req, res) => {
                     </head>
                     <body>
                     <p>Aplica: ${name} - ${email}</p>
-                    <p>From: ${country} - ${eori} - ${address}</p>
+                    <p>From: ${pais.pais} - ${address}</p>
+                    <p>EORI:  ${eori}  </p>
                     <p>Mensaje : ${message}</p> 
                     </body>
                   </html>`,
         });
+        res.json({ ok: "ok" });
       } else {
         res.json({ error: "Sorry :( error " });
       }

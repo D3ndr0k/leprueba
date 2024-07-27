@@ -22,7 +22,7 @@ export default function MainHeader() {
             <Link to="/apply">Application</Link>
             <Link to="/login">Log in</Link>
             <Link to="/aboutus">About us</Link>
-            <Link to="contact.html">Contact</Link>
+            <Link to="/contactus">Contact</Link>
           </nav>
         </div>
       </header>

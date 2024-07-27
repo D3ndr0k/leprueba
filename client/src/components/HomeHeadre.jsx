@@ -24,7 +24,7 @@ function HomeHeader() {
           <nav id="menu">
             <Link className="linknav" to="#">
               <BiUser size={20} />
-              Hi {user ? user.name : "Guest"}
+              Hi {user.name}
             </Link>
             <Link className="linknav" to="#">
               <BiShoppingBag size={20} />

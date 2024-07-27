@@ -23,6 +23,9 @@ function Login() {
       <MainHeader />
       <div className="conten">
         <form className="login" onSubmit={handleSubmit(submit)}>
+          <p>Log in</p>
+          <span className="hr"></span>
+
           <input
             type="email"
             name="email"
