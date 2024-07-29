@@ -7,6 +7,8 @@ import {
   getUserData,
   pais,
   contactus,
+  restablecerpass,
+  resetpass,
 } from "../controllers/apply.controllers.js";
 import { validar } from "../middlewares/validar.middleware.js";
 import { registroSchema } from "../schemas/schema.js";
@@ -18,6 +20,10 @@ router.post("/apply", validar(registroSchema), apply);
 router.post("/refresh", refresh);
 
 router.post("/login", login);
+
+router.post("/restablecerpass", restablecerpass);
+
+router.post("/resetpass/:id/:token", resetpass);
 
 router.post("/logout", authenticateToken, logout);
 

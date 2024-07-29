@@ -2,19 +2,29 @@ import { useForm } from "react-hook-form";
 import MainHeader from "../components/MainHeader";
 import "./Login.css";
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { api } from "../api/api";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
+function ForgotPass() {
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
-  const { login } = useAuth();
   const [errors, setErrors] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const submit = async (values) => {
+    setLoading(true);
     try {
-      await login(values.email, values.password);
+      const resp = await api.post("/restablecerpass", values);
+      if (resp.data.ok) {
+        setErrors(null);
+        navigate("/login");
+      } else if (resp.data.error) {
+        setErrors(resp.data.error);
+      }
     } catch (error) {
-      setErrors("Login failed. Please check your credentials and try again.");
+      setErrors("Error, please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -23,7 +33,7 @@ function Login() {
       <MainHeader />
       <div className="conten">
         <form className="login" onSubmit={handleSubmit(submit)}>
-          <p>Log in</p>
+          <p>Did you forget your password?</p>
           <span className="hr"></span>
 
           <input
@@ -32,23 +42,14 @@ function Login() {
             placeholder="Email"
             {...register("email", { required: true })}
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            autoComplete="on"
-            {...register("password", { required: true })}
-          />
           {errors && <div className="error">{errors}</div>}
-          <button type="submit" className="btn" id="login">
-            Log In
+          <button type="submit" className="btn" id="login" disabled={loading}>
+            {loading ? "Processing..." : "Recover password"}
           </button>
-          {/* <a href="">Login with code</a> */}
-          <Link to="/forgot-password">Change password</Link>
         </form>
       </div>
     </>
   );
 }
 
-export default Login;
+export default ForgotPass;

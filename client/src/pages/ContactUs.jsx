@@ -8,8 +8,10 @@ function ContactUs() {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState();
   const [success, setSuccess] = useState();
+  const [loading, setLoading] = useState(false);
 
   const submit = async (values) => {
+    setLoading(true);
     try {
       const response = await api.post("/contactus", values);
 
@@ -24,6 +26,8 @@ function ContactUs() {
       console.error("Error submitting the form:", error);
       setError("There was an error submitting the form.");
       setSuccess(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,8 +58,8 @@ function ContactUs() {
           ></textarea>
           {error && <div className="error">{error}</div>}
           {success && <div className="success">{success}</div>}
-          <button type="submit" className="btn" id="btn">
-            Send
+          <button type="submit" className="btn" id="btn" disabled={loading}>
+            {loading ? "Sending..." : "Send"}
           </button>
         </form>
       </div>

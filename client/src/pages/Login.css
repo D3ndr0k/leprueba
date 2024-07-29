@@ -2,7 +2,6 @@
   align-items: center;
   display: flex;
   justify-content: center;
-  margin-top: 25dvh;
 }
 
 .login {
@@ -12,6 +11,7 @@
   width: 50%;
   flex-direction: column;
   text-align: center;
+  margin-top: 5dvh;
 }
 
 .login span {

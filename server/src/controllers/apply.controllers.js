@@ -2,6 +2,14 @@ import bcrypt from "bcrypt";
 import { sql } from "../db.js";
 import jwt from "jsonwebtoken";
 import { mailer } from "../mail.js";
+import { v4 as uuidv4 } from "uuid";
+
+function generatePaddedUUID() {
+  const uuid = uuidv4().replace(/-/g, "");
+  const bigInt = BigInt("0x" + uuid);
+  const lUUID = bigInt.toString().padStart(40, "0");
+  return lUUID;
+}
 
 //apply mayorista
 
@@ -56,7 +64,8 @@ export const contactus = async (req, res) => {
 export const apply = async (req, res) => {
   const { address, country, email, eori, name, password, message } = req.body;
   let pass = await bcrypt.hash(password, 10);
-
+  const newid = generatePaddedUUID();
+  console.log(newid);
   try {
     const [existemail] = await sql(" SELECT * FROM cliente WHERE email= $1 ", [
       email,
@@ -65,8 +74,8 @@ export const apply = async (req, res) => {
       res.json({ error: "The email is registered" });
     } else {
       const result = await sql(
-        "INSERT INTO cliente(nombre, email, password, eori, id_pais, address) VALUES ($1, $2, $3, $4, $5, $6) returning * ",
-        [name, email, pass, eori, country, address]
+        "INSERT INTO cliente(id_cliente,nombre, email, password, eori, id_pais, address) VALUES ($1, $2, $3, $4, $5, $6,$7) returning * ",
+        [newid, name, email, pass, eori, country, address]
       );
 
       const [pais] = await sql("select * from pais where id_pais = $1", [
@@ -203,8 +212,6 @@ export const logout = (req, res) => {
   }
 };
 
-// controllers/authController.js
-
 export const getUserData = (req, res) => {
   const token = req.cookies.token;
 
@@ -223,4 +230,79 @@ export const getUserData = (req, res) => {
       email: user.email,
     });
   });
+};
+
+export const restablecerpass = async (req, res) => {
+  const { email } = req.body;
+
+  const [user] = await sql("select * from cliente where email= $1", [email]);
+  if (!user) {
+    return res.json({ error: "User not found" });
+  } else {
+    const token = jwt.sign(
+      { id: user.id_cliente, email: user.email },
+      process.env.KEY_TOKEN,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    const info = await mailer.sendMail({
+      from: '"Le Stage" <lestagewholesaler@gmail.com>',
+      to: email,
+      subject: "Recover your password",
+      html: `<!doctype html>
+              <html ⚡4email>
+                <head>
+                  <meta charset="utf-8">
+                  <style amp4email-boilerplate>body{visibility:hidden}</style>
+                  <script async src="https://cdn.ampproject.org/v0.js"></script>
+                  <script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script>
+                </head>
+                <body>
+                <p>Recover your password</p>
+                <p>Link http://localhost:5173/resetpass/${user.id_cliente}/${token}</p> 
+                </body>
+              </html>`,
+    });
+    res.json({ ok: "ok" });
+  }
+};
+
+export const resetpass = async (req, res) => {
+  try {
+    const { id, token } = req.params;
+    const { password } = req.body;
+
+    const [user] = await sql("SELECT * FROM cliente WHERE id_cliente = $1", [
+      id,
+    ]);
+
+    if (!user) {
+      return res.json({ error: "User not found" });
+    }
+
+    jwt.verify(token, process.env.KEY_TOKEN, async (err, decoded) => {
+      if (err) {
+        return res.json({ error: "Invalid or expired token" });
+      }
+      try {
+        const newpass = await bcrypt.hash(password, 10);
+
+        const { rowCount } = await sql(
+          "UPDATE cliente SET password = $1 WHERE id_cliente = $2",
+          [newpass, id]
+        );
+
+        if (rowCount === 0) {
+          return res.json({ error: "Password update failed" });
+        }
+        res.json({ ok: "Password updated successfully" });
+      } catch (updateError) {
+        res.json({ error: "Internal Server Error" });
+      }
+    });
+  } catch (error) {
+    res.json({ error: "Internal Server Error" });
+  }
 };

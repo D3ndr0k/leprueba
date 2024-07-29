@@ -15,6 +15,7 @@ function ApplyWholesaler() {
   const [countryError, setCountryError] = useState();
   const [countries, setCountries] = useState([]);
   const [errores, setErrores] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -30,6 +31,7 @@ function ApplyWholesaler() {
   }, []);
 
   const submit = async (values) => {
+    setLoading(true);
     try {
       const resp = await api.post("/apply", values);
 
@@ -74,6 +76,8 @@ function ApplyWholesaler() {
       }
     } catch (error) {
       console.error("Error submitting the form:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -153,8 +157,8 @@ function ApplyWholesaler() {
             {...register("message")}
           ></textarea>
           <div className="errors">{errores}</div>
-          <button type="submit" className="btn" id="btn">
-            Apply
+          <button type="submit" className="btn" id="btn" disabled={loading}>
+            {loading ? "Applying..." : "Apply"}
           </button>
         </form>
       </div>

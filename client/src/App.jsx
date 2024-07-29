@@ -10,6 +10,8 @@ import HomeUser from "./pages/HomeUser.jsx";
 import AboutUs from "./pages/AboutUs.jsx";
 import Thanks from "./pages/Thanks.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
+import ForgotPass from "./pages/ForgotPass.jsx";
+import UpPass from "./pages/UpPass.jsx";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route element={<PublicRoutes />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPass />} />
+          <Route path="/resetpass/:id/:token" element={<UpPass />} />
           <Route path="/thanks" element={<Thanks />} />
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/aboutus" element={<AboutUs />} />
