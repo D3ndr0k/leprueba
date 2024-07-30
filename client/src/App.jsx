@@ -12,6 +12,8 @@ import Thanks from "./pages/Thanks.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
 import ForgotPass from "./pages/ForgotPass.jsx";
 import UpPass from "./pages/UpPass.jsx";
+import CutBase from "./pages/CutBase.jsx";
+import Piece from "./pages/Piece.jsx";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
         </Route>
         <Route element={<PublicRoutes />}>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/cutbase" element={<CutBase />} />
+          <Route path="pieces" element={<Piece />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPass />} />
           <Route path="/resetpass/:id/:token" element={<UpPass />} />

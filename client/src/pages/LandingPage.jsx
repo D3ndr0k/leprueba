@@ -28,13 +28,13 @@ function LandingPage() {
       <section className="conten-center">
         <ul className="ul-products">
           <li>
-            <Link to="">Cut Base</Link>
+            <Link to="/cutbase">Cut Base</Link>
             <picture>
               <img src={img.cutbase} alt="Cut Base" />
             </picture>
           </li>
           <li>
-            <Link to="">Pieces</Link>
+            <Link to="/pieces">Pieces</Link>
             <picture>
               <img src={img.piece} alt="Piece" />
             </picture>
