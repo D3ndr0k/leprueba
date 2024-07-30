@@ -15,6 +15,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [Error, setError] = useState(null);
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(true);
   const cookies = new Cookies();
@@ -45,23 +46,48 @@ export const AuthProvider = ({ children }) => {
     };
 
     fetchUser();
-  }, []); // Eliminar cookies de las dependencias
+  }, []);
+
+  // const login = async (email, password) => {
+  //   setLoading(true);
+  //   try {
+  //     const { data } = await api.post("/login", { email, password });
+  //     cookies.set("token", data.refreshToken, { path: "/" });
+  //     setUser({
+  //       id: data.id,
+  //       name: data.name,
+  //       email: data.email,
+  //     });
+  //     setIsAuth(true);
+  //     navigate("/home");
+  //   } catch (error) {
+  //     console.error("Login error:", error);
+  //     throw error;
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const login = async (email, password) => {
     setLoading(true);
     try {
       const { data } = await api.post("/login", { email, password });
-      cookies.set("token", data.refreshToken, { path: "/" });
-      setUser({
-        id: data.id,
-        name: data.name,
-        email: data.email,
-      });
-      setIsAuth(true);
-      navigate("/home");
+
+      if (data.error) {
+        setError(data.error);
+      } else if (data.ok) {
+        cookies.set("token", data.refreshToken, { path: "/" });
+        setUser({
+          id: data.id,
+          name: data.name,
+          email: data.email,
+        });
+        setIsAuth(true);
+        navigate("/home");
+      }
     } catch (error) {
       console.error("Login error:", error);
-      throw error;
+      setError("An unexpected error occurred. Please try again."); // Muestra un error genérico
     } finally {
       setLoading(false);
     }
@@ -83,7 +109,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuth, loading, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, isAuth, loading, login, logout, Error }}
+    >
       {children}
     </AuthContext.Provider>
   );

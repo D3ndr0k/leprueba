@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 function Login() {
   const { register, handleSubmit } = useForm();
-  const { login } = useAuth();
+  const { login, Error } = useAuth();
   const [errors, setErrors] = useState(null);
 
   const submit = async (values) => {
@@ -39,7 +39,8 @@ function Login() {
             autoComplete="on"
             {...register("password", { required: true })}
           />
-          {errors && <div className="error">{errors}</div>}
+          <div className="error">{errors}</div>
+          <div className="error">{Error}</div>
           <button type="submit" className="btn" id="login">
             Log In
           </button>

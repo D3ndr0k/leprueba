@@ -155,7 +155,7 @@ const generateAccessToken = (user) => {
       email: user.email,
     },
     process.env.KEY_TOKEN,
-    { expiresIn: "1d" }
+    { expiresIn: "1m" }
   );
 };
 
@@ -170,31 +170,69 @@ const generateRefreshToken = (user) => {
   );
 };
 
+// // login
+// export const login = async (req, res) => {
+//   const { email, password } = req.body;
+
+//   const [user] = await sql("SELECT * FROM cliente WHERE email = $1", [email]);
+
+//   if (user) {
+//     const match = await bcrypt.compare(password, user.password);
+//     // console.log(user.password);
+//     if (!match) {
+//       res.json({ error: "Incorrect email or password" });
+//     } else {
+//       const accessToken = generateAccessToken(user);
+//       const refreshToken = generateRefreshToken(user);
+//       refreshTokens.push(refreshToken);
+//       res.json({
+//         ok: "ok",
+//         id: user.id_cliente,
+//         name: user.nombre,
+//         email: user.email,
+//         accessToken,
+//         refreshToken,
+//       });
+//     }
+//   } else {
+//     res.json({ error: "Incorrect email or password" });
+//   }
+// };
+
 // login
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
-  const [user] = await sql("SELECT * FROM cliente WHERE email = $1", [email]);
+  try {
+    const [user] = await sql("SELECT * FROM cliente WHERE email = $1", [email]);
 
-  if (user) {
+    if (!user) {
+      return res.json({ error: "Incorrect email or password" });
+    }
+
     const match = await bcrypt.compare(password, user.password);
 
-    if (match) {
-      const accessToken = generateAccessToken(user);
-      const refreshToken = generateRefreshToken(user);
-      refreshTokens.push(refreshToken);
-      res.status(200).json({
-        id: user.id_cliente,
-        name: user.nombre,
-        email: user.email,
-        accessToken,
-        refreshToken,
-      });
-    } else {
-      res.status(401).json({ error: "Incorrect email or password" });
+    if (!match) {
+      return res.json({ error: "Incorrect email or password" });
     }
-  } else {
-    res.status(401).json({ error: "Incorrect email or password" });
+
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+
+    refreshTokens.push(refreshToken);
+
+    // Responde con los datos del usuario y los tokens
+    res.json({
+      ok: "ok",
+      id: user.id_cliente,
+      name: user.nombre,
+      email: user.email,
+      accessToken,
+      refreshToken,
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
