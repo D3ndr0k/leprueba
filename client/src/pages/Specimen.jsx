@@ -7,7 +7,7 @@ import img from "../assets/img/img";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-function Piece() {
+function Specimen() {
   const settings = {
     infinite: true,
     speed: 500,
@@ -22,19 +22,19 @@ function Piece() {
         <div className="cont">
           <Slider {...settings}>
             <div className="product">
-              <img src={img.piece} alt="Slide 1" />
+              <img src={img.specimen} alt="Slide 1" />
             </div>
             <div className="product">
-              <img src={img.piece} alt="Slide 2" />
+              <img src={img.specimen} alt="Slide 2" />
             </div>
             <div className="product">
-              <img src={img.piece} alt="Slide 3" />
+              <img src={img.specimen} alt="Slide 3" />
             </div>
           </Slider>
         </div>
       </div>
       <section className="textprod">
-        <h1>PIECE</h1>
+        <h1>SPECIMEN</h1>
         <p>(000kg - 000kg)</p>
         <p>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus
@@ -54,4 +54,4 @@ function Piece() {
   );
 }
 
-export default Piece;
+export default Specimen;

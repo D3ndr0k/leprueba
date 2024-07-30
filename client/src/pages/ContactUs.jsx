@@ -3,6 +3,7 @@ import MainHeader from "../components/MainHeader";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { api } from "../api/api";
+import Footer from "../components/Footer";
 
 function ContactUs() {
   const { register, handleSubmit } = useForm();
@@ -63,6 +64,7 @@ function ContactUs() {
           </button>
         </form>
       </div>
+      <Footer />
     </>
   );
 }

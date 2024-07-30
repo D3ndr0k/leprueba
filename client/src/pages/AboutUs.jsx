@@ -1,6 +1,7 @@
 import React from "react";
 import "./AboutUs.css";
 import MainHeader from "../components/MainHeader";
+import Footer from "../components/Footer";
 function AboutUs() {
   return (
     <>
@@ -43,6 +44,7 @@ function AboutUs() {
           <h2>About Us</h2>
         </section>
       </div>
+      <Footer />
     </>
   );
 }

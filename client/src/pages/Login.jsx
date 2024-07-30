@@ -4,6 +4,7 @@ import "./Login.css";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
 
 function Login() {
   const { register, handleSubmit } = useForm();
@@ -48,6 +49,7 @@ function Login() {
           <Link to="/forgot-password">Change password</Link>
         </form>
       </div>
+      <Footer />
     </>
   );
 }

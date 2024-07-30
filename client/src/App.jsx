@@ -14,6 +14,10 @@ import ForgotPass from "./pages/ForgotPass.jsx";
 import UpPass from "./pages/UpPass.jsx";
 import CutBase from "./pages/CutBase.jsx";
 import Piece from "./pages/Piece.jsx";
+import Shape from "./pages/Shapes.jsx";
+import Natural from "./pages/Natural.jsx";
+import Specimen from "./pages/Specimen.jsx";
+import BigPieces from "./pages/BigPieces.jsx";
 
 function App() {
   return (
@@ -25,7 +29,11 @@ function App() {
         <Route element={<PublicRoutes />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/cutbase" element={<CutBase />} />
-          <Route path="pieces" element={<Piece />} />
+          <Route path="/pieces" element={<Piece />} />
+          <Route path="/specimen" element={<Specimen />} />
+          <Route path="/natural" element={<Natural />} />
+          <Route path="/bigpieces" element={<BigPieces />} />
+          <Route path="/shapes" element={<Shape />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPass />} />
           <Route path="/resetpass/:id/:token" element={<UpPass />} />

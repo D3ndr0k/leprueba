@@ -1,7 +1,7 @@
 import { FiMenu } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import "./MainHeader.css";
-// import img from "../assets/img/img.js";
+import img from "../assets/img/img.js";
 
 export default function MainHeader() {
   return (
@@ -9,7 +9,7 @@ export default function MainHeader() {
       <header id="main-header">
         <Link to="/">
           <picture>
-            <img src="{img.logo}" alt="Logo Le Stage" />
+            <img src={img.logoLeStage} alt="Logo Le Stage" />
           </picture>
         </Link>
         <div>

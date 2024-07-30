@@ -29,39 +29,51 @@ function LandingPage() {
         <ul className="ul-products">
           <li>
             <Link to="/cutbase">Cut Base</Link>
-            <picture>
-              <img src={img.cutbase} alt="Cut Base" />
-            </picture>
+            <Link to="/cutbase">
+              <picture>
+                <img src={img.cutbase} alt="Cut Base" />
+              </picture>
+            </Link>
           </li>
           <li>
             <Link to="/pieces">Pieces</Link>
-            <picture>
-              <img src={img.piece} alt="Piece" />
-            </picture>
+            <Link to="/pieces">
+              <picture>
+                <img src={img.piece} alt="Piece" />
+              </picture>
+            </Link>
           </li>
           <li>
-            <Link to="">Shapes</Link>
-            <picture>
-              <img src={img.shape} alt="Shape" />
-            </picture>
+            <Link to="/shapes">Shapes</Link>{" "}
+            <Link to="/shapes">
+              <picture>
+                <img src={img.shape} alt="Shape" />
+              </picture>
+            </Link>
           </li>
           <li>
-            <Link to="">Natural</Link>
-            <picture>
-              <img src={img.natural} alt="Natural" />
-            </picture>
+            <Link to="/natural">Natural</Link>
+            <Link to="/natural">
+              <picture>
+                <img src={img.natural} alt="Natural" />
+              </picture>
+            </Link>
           </li>
           <li>
-            <Link to="">Specimens</Link>
-            <picture>
-              <img src={img.specimen} alt="Specimen" />
-            </picture>
+            <Link to="/specimen">Specimens</Link>
+            <Link to="/specimen">
+              <picture>
+                <img src={img.specimen} alt="Specimen" />
+              </picture>
+            </Link>
           </li>
           <li>
-            <Link to="">Big & Giant Pieces</Link>
-            <picture>
-              <img src={img.big} alt="Big and giant pieces" />
-            </picture>
+            <Link to="/bigpieces">Big & Giant Pieces</Link>
+            <Link to="bigpieces">
+              <picture>
+                <img src={img.big} alt="Big and giant pieces" />
+              </picture>
+            </Link>
           </li>
         </ul>
       </section>

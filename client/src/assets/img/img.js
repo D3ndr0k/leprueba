@@ -11,6 +11,7 @@ import shape from "./shape.webp";
 import natural from "./natural.webp";
 import specimen from "./specimen.webp";
 import big from "./big.jpg";
+import logoLeStage from "./logoLeStage.png";
 
 export default {
   logo: logo,
@@ -25,4 +26,5 @@ export default {
   natural: natural,
   specimen: specimen,
   big: big,
+  logoLeStage: logoLeStage,
 };

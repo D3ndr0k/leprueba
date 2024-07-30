@@ -1,5 +1,5 @@
 footer {
-  margin-top: 2rem;
+  /* margin-top: 2rem; */
   background-color: black;
   display: flex;
   align-items: center;
@@ -16,7 +16,7 @@ footer picture {
 }
 
 footer img {
-  height: 100%;
+  height: 60%;
   object-fit: cover;
 }
 
@@ -54,9 +54,9 @@ footer p {
   transform: translate(-20%, -50%);
 }
 
-footer img {
+/* footer img {
   filter: invert(1);
-}
+} */
 
 @media screen and (max-width: 800px) {
   footer nav,

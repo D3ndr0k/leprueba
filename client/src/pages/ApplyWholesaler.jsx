@@ -4,6 +4,7 @@ import "./ApplyWholesaler.css";
 import MainHeader from "../components/MainHeader";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api/api";
+import Footer from "../components/Footer";
 
 function ApplyWholesaler() {
   const navigate = useNavigate();
@@ -91,9 +92,7 @@ function ApplyWholesaler() {
               type="email"
               id="email"
               placeholder="Email"
-              {...register("email", {
-                required: "El correo electrónico es obligatorio",
-              })}
+              {...register("email")}
             />
             <div className="errors">{emailError}</div>
             <input
@@ -101,18 +100,14 @@ function ApplyWholesaler() {
               id="password"
               placeholder="Password"
               autoComplete="on"
-              {...register("password", {
-                required: "La contraseña es obligatoria",
-              })}
+              {...register("password")}
             />
             <div className="errors">{passError}</div>
             <input
               type="text"
               id="name"
               placeholder="Company name"
-              {...register("name", {
-                required: "El nombre de la empresa es obligatorio",
-              })}
+              {...register("name")}
             />
             <div className="errors">{nameError}</div>
           </div>
@@ -128,17 +123,11 @@ function ApplyWholesaler() {
               type="text"
               id="address"
               placeholder="Company address"
-              {...register("address", {
-                required: "La dirección es obligatoria",
-              })}
+              {...register("address")}
             />
             <div className="errors">{addressError}</div>
 
-            <select
-              className="country"
-              id="country"
-              {...register("country", { required: "El país es obligatorio" })}
-            >
+            <select className="country" id="country" {...register("country")}>
               <option value="" hidden>
                 Country
               </option>
@@ -162,6 +151,8 @@ function ApplyWholesaler() {
           </button>
         </form>
       </div>
+
+      <Footer />
     </>
   );
 }

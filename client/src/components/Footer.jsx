@@ -8,12 +8,12 @@ function Footer() {
     <>
       <footer>
         <picture>
-          <img src={img.logo} alt="logo Le Stage" />
+          <img src={img.logoLeStage} alt="logo Le Stage" />
         </picture>
         <div className="footer-text">
           <nav>
-            <Link to="">Contact</Link>
-            <Link to="">About us</Link>
+            <Link to="/contactus">Contact</Link>
+            <Link to="/aboutus">About us</Link>
             <Link to="">Terms and conditions</Link>
           </nav>
           <div className="copy">
