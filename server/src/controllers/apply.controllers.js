@@ -65,7 +65,7 @@ export const apply = async (req, res) => {
   const { address, country, email, eori, name, password, message } = req.body;
   let pass = await bcrypt.hash(password, 10);
   const newid = generatePaddedUUID();
-  console.log(newid);
+  // console.log(newid);
   try {
     const [existemail] = await sql(" SELECT * FROM cliente WHERE email= $1 ", [
       email,
@@ -169,35 +169,6 @@ const generateRefreshToken = (user) => {
     process.env.KEY_RETOKEN
   );
 };
-
-// // login
-// export const login = async (req, res) => {
-//   const { email, password } = req.body;
-
-//   const [user] = await sql("SELECT * FROM cliente WHERE email = $1", [email]);
-
-//   if (user) {
-//     const match = await bcrypt.compare(password, user.password);
-//     // console.log(user.password);
-//     if (!match) {
-//       res.json({ error: "Incorrect email or password" });
-//     } else {
-//       const accessToken = generateAccessToken(user);
-//       const refreshToken = generateRefreshToken(user);
-//       refreshTokens.push(refreshToken);
-//       res.json({
-//         ok: "ok",
-//         id: user.id_cliente,
-//         name: user.nombre,
-//         email: user.email,
-//         accessToken,
-//         refreshToken,
-//       });
-//     }
-//   } else {
-//     res.json({ error: "Incorrect email or password" });
-//   }
-// };
 
 // login
 export const login = async (req, res) => {

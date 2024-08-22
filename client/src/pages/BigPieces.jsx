@@ -34,7 +34,7 @@ function BigPieces() {
         </div>
       </div>
       <section className="textprod">
-        <h1>NATURAL</h1>
+        <h1>Big & Giant Pieces</h1>
         <p>(000kg - 000kg)</p>
         <p>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus

@@ -26,10 +26,10 @@ function LandingPage() {
         <p>Know our products</p>
       </div>
       <section className="conten-center">
-        <ul className="ul-products">
+        <ul className="ul-know-prod">
           <li>
             <Link to="/cutbase">Cut Base</Link>
-            <Link to="/cutbase">
+            <Link to="/cutbase" className="imga">
               <picture>
                 <img src={img.cutbase} alt="Cut Base" />
               </picture>
@@ -37,7 +37,7 @@ function LandingPage() {
           </li>
           <li>
             <Link to="/pieces">Pieces</Link>
-            <Link to="/pieces">
+            <Link to="/pieces" className="imga">
               <picture>
                 <img src={img.piece} alt="Piece" />
               </picture>
@@ -45,7 +45,7 @@ function LandingPage() {
           </li>
           <li>
             <Link to="/shapes">Shapes</Link>{" "}
-            <Link to="/shapes">
+            <Link to="/shapes" className="imga">
               <picture>
                 <img src={img.shape} alt="Shape" />
               </picture>
@@ -53,7 +53,7 @@ function LandingPage() {
           </li>
           <li>
             <Link to="/natural">Natural</Link>
-            <Link to="/natural">
+            <Link to="/natural" className="imga">
               <picture>
                 <img src={img.natural} alt="Natural" />
               </picture>
@@ -61,7 +61,7 @@ function LandingPage() {
           </li>
           <li>
             <Link to="/specimen">Specimens</Link>
-            <Link to="/specimen">
+            <Link to="/specimen" className="imga">
               <picture>
                 <img src={img.specimen} alt="Specimen" />
               </picture>
@@ -69,7 +69,7 @@ function LandingPage() {
           </li>
           <li>
             <Link to="/bigpieces">Big & Giant Pieces</Link>
-            <Link to="bigpieces">
+            <Link to="bigpieces" className="imga">
               <picture>
                 <img src={img.big} alt="Big and giant pieces" />
               </picture>
